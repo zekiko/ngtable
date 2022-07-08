@@ -1,0 +1,113 @@
+<div>{{counter}}</div>
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter">
+</mat-form-field>
+
+<cdk-virtual-scroll-viewport tvsItemSize="48" class="wrapper mat-elevation-z2">
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+
+        <!-- Checkbox Column -->
+        <!--    <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="col-sm">
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row" class="col-sm">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container> -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="signalId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-sm"> ID </th>
+            <td mat-cell *matCellDef="let element" class="col-sm"> {{element.signalId}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="frequency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Merkez Frekans (mHz) </th>
+            <td mat-cell *matCellDef="let element"> {{ ((element.stopFrequencyHz -
+                element.startFrequencyHz) /2 +
+                element.startFrequencyHz) /1000000 | number: '1.3-3'}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="bandWidth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bant Genişliği (kHz) </th>
+            <td mat-cell *matCellDef="let element"> {{ (element.stopFrequencyHz -
+                element.startFrequencyHz) / 1000}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="snrDbm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SNR (dB) </th>
+            <td mat-cell *matCellDef="let element"> {{element.snrDbm}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="signalType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modülasyon </th>
+            <td mat-cell *matCellDef="let element"> {{element.signalType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="confidence">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modülasyon Yüzdesi </th>
+            <td mat-cell *matCellDef="let element"> {{element.confidence}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="currentIdInfo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Anlık Kimlik Bilgisi </th>
+            <td mat-cell *matCellDef="let element"> {{ element.identification?.identificationItemList[0]?.identity +
+                ": " + element.identification?.identificationItemList[0]?.confidence
+                === "null: null" ? "-" :
+                element.identification?.identificationItemList[0]?.identity +
+                ": " + element.identification?.identificationItemList[0]?.confidence
+                }} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Durum </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.status}}
+            </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Yayın Başlangıç </th>
+            <td mat-cell *matCellDef="let element">
+                <div>{{ element.startTimeMs | date: 'h:mm ' }}</div>
+            </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="finishDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Yayın Bitiş </th>
+            <td mat-cell *matCellDef="let element">
+                <div>{{ element.stopTimeMs | date: 'h:mm ' }}</div>
+            </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="oprNote">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Opr. Notu </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.oprNote}}
+            </td>
+
+
+        </ng-container>
+        
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+        </tr>
+    </table>
+
+</cdk-virtual-scroll-viewport>

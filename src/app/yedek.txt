@@ -1,0 +1,158 @@
+import {
+    Component, OnInit, ViewEncapsulation,
+    SimpleChanges, OnChanges, ElementRef,
+    ViewChild,
+    HostListener,
+    ViewChildren,
+    QueryList,
+    AfterViewInit
+  } from '@angular/core';
+  import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
+  import { elementAt } from 'rxjs';
+  import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+  
+  const DATA = Array.from({ length: 10 }, (v, i) => ({
+    id: i + 1,
+    name: `Element #${i + 1}`
+  }));
+  
+  
+  @Component({
+    selector: 'app-sticky-example',
+    templateUrl: './sticky-example.component.html',
+    styleUrls: ['./sticky-example.component.css'],
+    encapsulation: ViewEncapsulation.ShadowDom
+  })
+  
+  export class StickyExampleComponent implements AfterViewInit {
+    displayedColumns: string[] = [
+      'id',
+      'frequency',
+      'bandWidth',
+      'snr',
+      'modulation',
+      'modulationPercentage',
+      'currentIdInfo',
+      'status',
+      'startDate',
+      'finishDate',
+      'oprNote',
+      'addItem',
+    ];
+  
+    dataSource = new TableVirtualScrollDataSource(DATA);
+    /* @ViewChild('scrollMe') private myScrollContainer!: ElementRef; */
+    //@ViewChild("scrollMe", { static: true })
+  
+    @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
+    @ViewChildren('item') itemElements: QueryList<any>;
+    private itemContainer: any;
+    private scrollContainer: any;
+    private isNearBottom = true;
+  
+    public virtualScrollViewport: CdkVirtualScrollViewport;
+  
+    id: null | ReturnType<typeof setTimeout> = null
+    length3: number = 100
+    userScroll: boolean = false
+    autoScrolled: boolean = false
+  
+    createData() {
+      const DATA = Array.from({ length: this.length3 }, (v, i) => ({
+        id: i + 1,
+        name: `Element #${i + 1}`
+      }));
+      this.length3 = this.length3 + 100
+      /* console.log(this.dataSource, DATA) */
+      this.dataSource = new TableVirtualScrollDataSource(DATA)
+      //this.scrollToBottom()
+    }
+  
+    ngAfterViewInit() {
+      console.log('virtualScrollViewport',this.virtualScrollViewport, this.scrollFrame)
+      this.scrollContainer = this.scrollFrame.nativeElement;
+      this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+  
+      this.createData();
+      this.id = setInterval(() => {
+        this.createData();
+      }, 5000);
+    }
+  
+    private onItemElementsChanged(): void {
+      if (this.isNearBottom) {
+        this.scrollToBottom();
+      }
+    }
+  
+    private scrollToBottom(): void {
+      console.log('virtualScrollViewport_2',this.virtualScrollViewport)
+  
+      this.scrollContainer.scroll({
+        top: this.scrollContainer.scrollHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+  
+    private isUserNearBottom(): boolean {
+      const threshold = 150;
+      const position = this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight;
+      const height = this.scrollContainer.scrollHeight;
+      return position > height - threshold;
+    }
+  
+    scrolled(event: any): void {
+      this.isNearBottom = this.isUserNearBottom();
+    }
+  
+    /*  ngOnInit() {
+       this.scrollToBottom();
+   
+       this.createData();
+       this.id = setInterval(() => {
+         this.createData();
+       }, 2000);
+     } */
+  
+    /* ngOnDestroy() {
+      if (this.id) {
+        clearInterval(this.id);
+      }
+    } */
+  
+    /* ngOnChanges(changes: SimpleChanges): void {
+      console.log('changes', changes);
+    } */
+  
+    /* scrollToBottom(): void {
+      //console.log(this.virtualScrollViewport.elementRef.nativeElement)
+      try {
+        if (this.userScroll) {
+          this.autoScrolled = true
+          this.virtualScrollViewport.scrollTo({
+            bottom: 0,
+            behavior: "auto"
+          })
+        }
+  
+      } catch (err) { }
+  
+    } */
+  
+    /* ngAfterViewChecked() {
+      this.scrollToBottom();
+    }
+   */
+    handleAddButton() {
+      console.log("handleAddButton is clicked!")
+    }
+  
+    /* @HostListener("window:scroll", ["$event"]) */
+    handleScroll(ev: any) {
+  
+      //console.log("scrolling ")
+    }
+  
+  }
+  

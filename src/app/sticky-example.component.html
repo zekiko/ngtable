@@ -1,0 +1,80 @@
+<div>
+    <h1>fast data-grid</h1>
+    <h3>total row: {{length3 - 10}}</h3>
+
+    <cdk-virtual-scroll-viewport tvsItemSize class="wrapper mat-elevation-z2" #scrollframe (scroll)="scrolled($event)">
+        <table class="lol" mat-table [dataSource]="dataSource" >
+
+            <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
+            <tr class="header2" mat-row *matRowDef="let row; columns: displayedColumns;" #item></tr>
+
+            <ng-container matColumnDef="id" >
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="frequency">
+                <th mat-header-cell *matHeaderCellDef>Merkez Frekans (mHz)</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="bandWidth">
+                <th mat-header-cell *matHeaderCellDef>Bant Genişliği (kHz)</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="snr">
+                <th mat-header-cell *matHeaderCellDef>SNR (dB)</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="modulation">
+                <th mat-header-cell *matHeaderCellDef>Modülasyon</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="modulationPercentage">
+                <th mat-header-cell *matHeaderCellDef>Modülasyon Yüzdesi</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="currentIdInfo">
+                <th mat-header-cell *matHeaderCellDef>Anlık Kimlik Bilgisi</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Durum</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Yayın Başlangıç</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="finishDate">
+                <th mat-header-cell *matHeaderCellDef>Yayın Bitiş</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="oprNote">
+                <th mat-header-cell *matHeaderCellDef>Opr. Notu</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="addItem">
+                <!--add diyince popup açılıyor opr notu buradan girilğiyor. Opr notu input almayacak.-->
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button class="plus-button" (click)="handleAddButton()">
+                        <mat-icon class="addIcon">add</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+        </table>
+
+    </cdk-virtual-scroll-viewport>
+</div>

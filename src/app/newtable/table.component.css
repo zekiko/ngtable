@@ -1,0 +1,32 @@
+.wrapper {
+    height: 300px;
+  }
+  
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .col-sm {
+    width: 70px;
+  }
+  
+
+  .mat-table-sticky {
+    background-color: #2F4163;
+    color: rgb(255, 255, 255);
+    width: 26px;
+    height: 18px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11.9941px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    text-align: center !important;
+}
