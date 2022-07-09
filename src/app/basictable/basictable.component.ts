@@ -68,7 +68,7 @@ export class BasicTable implements AfterViewInit {
     this.createMockData();
     this.id = setInterval(() => {
       this.createMockData();
-    }, 5000);
+    }, 3000);
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -84,8 +84,21 @@ export class BasicTable implements AfterViewInit {
     }
   }
 
+  isFiltering = false
+  applyFilter(filterValue: string) {
+    if(filterValue.length > 0){
+      this.isFiltering = true
+    }else{
+      this.isFiltering = false
+      this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
+    }
+    console.log('filterValue', filterValue)
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   mockDataList: any[] = [];
-  mockDataLength: number = 10
+  mockDataLength: number = 50
+  counter = 0
   createMockData() {
     const ELEMENT_DATA: PeriodicElement[] = Array.from({ length: this.mockDataLength }, (v, i) => (
       {
@@ -95,12 +108,14 @@ export class BasicTable implements AfterViewInit {
         symbol: i + " symbol"
       }
     ));
-    console.log('ELEMENT_DATA.length', ELEMENT_DATA.length)
     this.mockDataList = [...ELEMENT_DATA];
-    this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 20, this.mockDataList.length));
+    if(!this.isFiltering){
+      this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
+    } 
     this.dataSource.sort = this.sort;
-    console.log('this.mockDataList', this.mockDataList.length)
-    this.mockDataLength = this.mockDataLength + 50
+    this.mockDataLength = this.mockDataLength + 10
+    this.counter++;
+    console.log('this.counter', this.counter)
   }
 
 

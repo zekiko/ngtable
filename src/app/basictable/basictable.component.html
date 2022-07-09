@@ -2,7 +2,7 @@
 
   
   <mat-form-field class="filter-form">
-    <input matInput placeholder="Filter">
+    <input matInput (keyup)="applyFilter($any($event.target).value)"  placeholder="Filter">
 </mat-form-field>
 
 
