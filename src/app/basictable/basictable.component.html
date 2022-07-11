@@ -2,14 +2,18 @@
 
   
   <mat-form-field class="filter-form">
-    <input matInput (keyup)="applyFilter($any($event.target).value)"  placeholder="Filter">
-</mat-form-field>
+    <input matInput (keyup)="applyFilter($any($event.target).value)"  placeholder={{madafaka}}>
+  </mat-form-field>
+  
+  <button (click)="handleScrollBottomClick($event)">bas</button>
+  <div>{{counter}}</div>
 
 
-<div class="wrapper">
+<div class="wrapper" (scroll)="onTableScroll($event)" #scrollframe>
 
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-    class="mat-elevation-z8">
+    class="mat-elevation-z8" 
+    >
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">

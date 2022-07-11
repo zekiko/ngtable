@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -10,39 +10,6 @@ export interface PeriodicElement {
   symbol: string;
 }
 
-/* const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-]; */
-
 /**
  * @title Table with sorting
  */
@@ -51,21 +18,22 @@ export interface PeriodicElement {
   styleUrls: ['basictable.component.css'],
   templateUrl: 'basictable.component.html',
 })
-export class BasicTable implements AfterViewInit {
+export class BasicTable implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   //dataSource = new MatTableDataSource(ELEMENT_DATA);
   dataSource: any = [];
 
-
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('scrollframe') private myScrollContainer: ElementRef;
+
   id: null | ReturnType<typeof setTimeout> = null
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
 
+  ngOnInit(): void {
     this.createMockData();
+
     this.id = setInterval(() => {
       this.createMockData();
     }, 3000);
@@ -86,9 +54,9 @@ export class BasicTable implements AfterViewInit {
 
   isFiltering = false
   applyFilter(filterValue: string) {
-    if(filterValue.length > 0){
+    if (filterValue.length > 0) {
       this.isFiltering = true
-    }else{
+    } else {
       this.isFiltering = false
       this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
     }
@@ -97,26 +65,87 @@ export class BasicTable implements AfterViewInit {
   }
 
   mockDataList: any[] = [];
-  mockDataLength: number = 50
+  mockDataLength: number = 100
   counter = 0
   createMockData() {
     const ELEMENT_DATA: PeriodicElement[] = Array.from({ length: this.mockDataLength }, (v, i) => (
       {
         name: i + " name",
-        position: i,
+        position: i + 1,
         weight: i * 10,
         symbol: i + " symbol"
       }
     ));
     this.mockDataList = [...ELEMENT_DATA];
-    if(!this.isFiltering){
-      this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
-    } 
-    this.dataSource.sort = this.sort;
-    this.mockDataLength = this.mockDataLength + 10
+
     this.counter++;
-    console.log('this.counter', this.counter)
+
+    
+    if (!this.scrolling) {
+      this.upScrollStartIndex = this.mockDataList.indexOf(this.mockDataList[this.mockDataList.length - 50])
+      this.dataSource = this.mockDataList.slice(this.upScrollStartIndex, this.mockDataList.length)
+      this.dataSource.sort = this.sort;
+    }
+
+    console.log(this.mockDataList.length, this.scrolling)
+    this.mockDataLength = this.mockDataLength + 5
+
+    //console.log('this.counter', this.counter, this.dataSource.length, this.mockDataList.length)
+    this.totalrow = this.dataSource.length
+  }
+  upScrollStartIndex = -1
+  pageSize = 10
+
+  //infinite scroll
+  selectedRowIndex: number = -1;
+
+  madafaka = 0
+  totalrow = 0;
+  scrolling = false
+  onTableScroll(e: any) {
+    this.scrolling = true
+
+    console.log("this.scrolling", this.scrolling)
+
+    if (this.myScrollContainer.nativeElement.scrollTop <= 0) {
+      this.madafaka++
+
+      console.log(this.upScrollStartIndex, this.mockDataList.length)
+      if (this.upScrollStartIndex >= 0) {
+        this.myScrollContainer.nativeElement.scrollTop = 100
+
+        if (this.upScrollStartIndex - this.pageSize < 0 && Math.abs(this.upScrollStartIndex - this.pageSize) < this.pageSize) {
+          this.dataSource = [...this.mockDataList.slice(0, this.upScrollStartIndex), ...this.dataSource]
+        } else {
+          this.dataSource = [...this.mockDataList.slice(this.upScrollStartIndex - this.pageSize, this.upScrollStartIndex), ...this.dataSource]
+        }
+        this.upScrollStartIndex = this.upScrollStartIndex - this.pageSize
+      }
+    }
+
+
+  }
+  isScrolledToBottom = false
+  handleScrollBottomClick(e: any) {
+    this.isScrolledToBottom = true
+
+    console.log("scoll bottomomomo", this.scrolling)
+
+    this.myScrollContainer.nativeElement.scrollTo({
+      top: this.myScrollContainer.nativeElement.scrollHeight,
+      behavior: 'smooth'
+    })
+
   }
 
+
+  getTableData(start: number, end: number) {
+    return this.mockDataList.filter((value: any, index: number) => index >= start && index < end)
+  }
+
+
+  selectedRow(row: any) {
+    console.log('selectedRow', row)
+  }
 
 }
