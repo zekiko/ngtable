@@ -60,8 +60,9 @@ export class BasicTable implements OnInit {
       this.isFiltering = false
       this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
     }
-    console.log('filterValue', filterValue)
+    //console.log('filterValue', filterValue)
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    console.log("fi,ilter", this.dataSource.filter)
   }
 
   mockDataList: any[] = [];
@@ -80,14 +81,24 @@ export class BasicTable implements OnInit {
 
     this.counter++;
 
-    
+    //console.log("lala", this.myScrollContainer?.nativeElement?.scrollTop)
     if (!this.scrolling) {
       this.upScrollStartIndex = this.mockDataList.indexOf(this.mockDataList[this.mockDataList.length - 50])
       this.dataSource = this.mockDataList.slice(this.upScrollStartIndex, this.mockDataList.length)
       this.dataSource.sort = this.sort;
+
+      this.myScrollContainer?.nativeElement?.scrollTo({
+        top: this.myScrollContainer?.nativeElement?.scrollHeight - 700,
+        behavior: 'auto'
+      })
+
+      this.myScrollContainer?.nativeElement?.scrollTo({
+        top: this.myScrollContainer?.nativeElement?.scrollHeight,
+        behavior: 'smooth'
+      })
     }
 
-    console.log(this.mockDataList.length, this.scrolling, this.dataSource.length)
+    //console.log(this.mockDataList.length, this.scrolling, this.dataSource.length)
     this.mockDataLength = this.mockDataLength + 5
 
     //console.log('this.counter', this.counter, this.dataSource.length, this.mockDataList.length)
@@ -104,11 +115,11 @@ export class BasicTable implements OnInit {
   scrolling = false
   onTableScroll(e: any) {
     this.scrolling = true
-    if(this.myScrollContainer.nativeElement.scrollTop + this.myScrollContainer.nativeElement.offsetHeight === this.myScrollContainer.nativeElement.scrollHeight){
-      this.scrolling = false  
+    if (this.myScrollContainer.nativeElement.scrollTop + this.myScrollContainer.nativeElement.offsetHeight === this.myScrollContainer.nativeElement.scrollHeight) {
+      this.scrolling = false
     }
 
-    console.log("this.scrolling", this.scrolling)
+    //console.log("this.scrolling", this.scrolling)
 
     if (this.myScrollContainer.nativeElement.scrollTop <= 0) {
       this.madafaka++
@@ -119,18 +130,20 @@ export class BasicTable implements OnInit {
 
         if (this.upScrollStartIndex - this.pageSize < 0 && Math.abs(this.upScrollStartIndex - this.pageSize) < this.pageSize) {
           this.dataSource = [...this.mockDataList.slice(0, this.upScrollStartIndex), ...this.dataSource]
+
         } else {
           this.dataSource = [...this.mockDataList.slice(this.upScrollStartIndex - this.pageSize, this.upScrollStartIndex), ...this.dataSource]
+
         }
         this.upScrollStartIndex = this.upScrollStartIndex - this.pageSize
+
       }
     }
-
+    this.dataSource.sort = this.sort;
 
   }
-  isScrolledToBottom = false
-  handleScrollBottomClick(e: any) {
-    this.isScrolledToBottom = true
+
+  handleScrollBottomClick() {
 
     console.log("scoll bottomomomo", this.scrolling)
 

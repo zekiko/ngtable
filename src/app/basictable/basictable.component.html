@@ -5,7 +5,7 @@
     <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder={{madafaka}}>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" matBadge={{counter}} matBadgePosition="before" matBadgeColor="accent" (click)="handleScrollBottomClick($event)">
+  <button mat-raised-button color="primary" matBadge={{counter}} matBadgePosition="before" matBadgeColor="accent" (click)="handleScrollBottomClick()">
     aşağı in
   </button>
   <div>{{counter}}</div>
