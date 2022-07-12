@@ -13,6 +13,9 @@ import { MatTableModule } from '@angular/material/table';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 
+import { MatBadgeModule } from "@angular/material/badge";
+
+
 import { BasicTable } from './app/basictable/basictable.component'
 
 
@@ -27,7 +30,8 @@ import { BasicTable } from './app/basictable/basictable.component'
     MatInputModule,
     MatSortModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    MatBadgeModule
   ],
   entryComponents: [BasicTable],
   declarations: [BasicTable],

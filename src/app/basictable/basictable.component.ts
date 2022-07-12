@@ -87,7 +87,7 @@ export class BasicTable implements OnInit {
       this.dataSource.sort = this.sort;
     }
 
-    console.log(this.mockDataList.length, this.scrolling)
+    console.log(this.mockDataList.length, this.scrolling, this.dataSource.length)
     this.mockDataLength = this.mockDataLength + 5
 
     //console.log('this.counter', this.counter, this.dataSource.length, this.mockDataList.length)
@@ -104,6 +104,9 @@ export class BasicTable implements OnInit {
   scrolling = false
   onTableScroll(e: any) {
     this.scrolling = true
+    if(this.myScrollContainer.nativeElement.scrollTop + this.myScrollContainer.nativeElement.offsetHeight === this.myScrollContainer.nativeElement.scrollHeight){
+      this.scrolling = false  
+    }
 
     console.log("this.scrolling", this.scrolling)
 
