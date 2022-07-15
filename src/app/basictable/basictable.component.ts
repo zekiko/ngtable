@@ -82,9 +82,9 @@ export class BasicTable implements OnInit {
     this.counter++;
 
     //console.log("lala", this.myScrollContainer?.nativeElement?.scrollTop)
-    if (!this.scrolling) {
+    if (!this.scrolling && !this.isFiltering) {
       this.upScrollStartIndex = this.mockDataList.indexOf(this.mockDataList[this.mockDataList.length - 50])
-      this.dataSource = this.mockDataList.slice(this.upScrollStartIndex, this.mockDataList.length)
+      this.dataSource = new MatTableDataSource(this.mockDataList.slice(this.upScrollStartIndex, this.mockDataList.length))
       this.dataSource.sort = this.sort;
 
       this.myScrollContainer?.nativeElement?.scrollTo({
@@ -129,10 +129,10 @@ export class BasicTable implements OnInit {
         this.myScrollContainer.nativeElement.scrollTop = 100
 
         if (this.upScrollStartIndex - this.pageSize < 0 && Math.abs(this.upScrollStartIndex - this.pageSize) < this.pageSize) {
-          this.dataSource = [...this.mockDataList.slice(0, this.upScrollStartIndex), ...this.dataSource]
+          this.dataSource = new MatTableDataSource([...this.mockDataList.slice(0, this.upScrollStartIndex), ...this.dataSource.data])
 
         } else {
-          this.dataSource = [...this.mockDataList.slice(this.upScrollStartIndex - this.pageSize, this.upScrollStartIndex), ...this.dataSource]
+          this.dataSource = new MatTableDataSource([...this.mockDataList.slice(this.upScrollStartIndex - this.pageSize, this.upScrollStartIndex), ...this.dataSource.data])
 
         }
         this.upScrollStartIndex = this.upScrollStartIndex - this.pageSize
