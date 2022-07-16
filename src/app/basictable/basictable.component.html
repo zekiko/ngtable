@@ -1,61 +1,75 @@
 <div class="table-container">
 
 
-  <mat-form-field class="filter-form">
-    <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder={{madafaka}}>
-  </mat-form-field>
+    <mat-form-field class="filter-form">
+        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="filter">
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" matBadge={{counter}} matBadgePosition="before" matBadgeColor="accent" (click)="handleScrollBottomClick()">
-    aşağı in
-  </button>
-  <div>{{counter}}</div>
+    <!-- <button mat-icon-button color="primary" matBadge={{counter}} matBadgePosition="above before" matBadgeColor="accent"
+        (click)="handleScrollBottomClick()">
+        <mat-icon>arrow_downward</mat-icon>
+    </button> -->
 
+    <button mat-icon-button color="primary"
+        (click)="handleScrollBottomClick()">
+        <mat-icon>arrow_downward</mat-icon>
+    </button>
 
-  <div class="wrapper" (scroll)="onTableScroll($event)" #scrollframe>
+    <!-- <button mat-raised-button color="primary" matBadge={{counter}} matBadgePosition="before" matBadgeColor="accent"
+        (click)="handleScrollBottomClick()">
+        aşağı in
+    </button> -->
 
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-      class="mat-elevation-z8">
-
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          No.
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-          Name
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
-          Weight
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-      </ng-container>
-
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-          Symbol
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-      </ng-container>
-
-      <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <div>{{counter}}</div>
+    <div>mockdatalist {{mockDataList.length}}</div>
+    <div>mockdatalistTemp {{mockDataListTemp.length}}</div>
 
 
-      <!--     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <div class="wrapper" (scroll)="onTableScroll($event)" #scrollframe>
 
-    </table>
-  </div>
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+            class="mat-elevation-z8">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                    No.
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                    Name
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                    Weight
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    Symbol
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+
+            <!--     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+    </div>
 </div>
 
 
