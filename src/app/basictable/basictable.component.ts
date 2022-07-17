@@ -35,7 +35,7 @@ export class BasicTable implements OnInit {
 
         this.id = setInterval(() => {
             this.createMockData();
-        }, 1000);
+        }, 3000);
     }
 
     /** Announce the change in sort state for assistive technology. */
@@ -52,16 +52,23 @@ export class BasicTable implements OnInit {
     }
 
     isFiltering = false
+    zeroCounter = 0
     applyFilter(filterValue: string) {
         if (filterValue.length > 0) {
             this.isFiltering = true
+            this.zeroCounter = 0
         } else {
+            this.zeroCounter++
             this.isFiltering = false
-            this.dataSource = new MatTableDataSource(this.mockDataList.splice(this.mockDataList.length - 10, this.mockDataList.length));
+            if(this.zeroCounter <= 0){
+                let threshold = this.mockDataList.length - 100 < 0 ? 0 : this.mockDataList.length - 100
+                this.dataSource = new MatTableDataSource(this.mockDataListTemp.slice(threshold, this.mockDataListTemp.length));
+                console.log("girdi", this.dataSource.data.length, this.mockDataListTemp.length, threshold)
+            }
         }
-        //console.log('filterValue', filterValue)
+        this.dataSource = new MatTableDataSource(this.mockDataList)
         this.dataSource.filter = filterValue.trim().toLowerCase();
-        console.log("fi,ilter", this.dataSource.filter)
+        console.log("fiilter", this.dataSource.filter, this.zeroCounter)
     }
 
     mockDataList: any[] = [];
@@ -84,7 +91,7 @@ export class BasicTable implements OnInit {
         ));
         this.mockDataList = [...ELEMENT_DATA];
 
-        if (this.liveMode) {
+        if (this.liveMode && !this.isFiltering) {
             this.mockDataListTemp = [...this.mockDataList]
             if (this.mockDataListTemp.length <= this.pageSize) {
                 this.renderedData = [...this.mockDataListTemp]
@@ -94,11 +101,8 @@ export class BasicTable implements OnInit {
             this.totalPageCount = Math.ceil(this.mockDataListTemp.length / this.pageSize)
             this.pageNumber = this.totalPageCount
             this.dataSource = new MatTableDataSource([...this.renderedData])
+            this.dataSource.sort = this.sort;
 
-
-            //console.log(this.renderedData.length, this.mockDataListTemp.length, this.mockDataList.length, this.pageNumber, this.totalPageCount)
-            /* this.scrollToBottom(700, 'auto')
-            this.scrollToBottom(0, 'smooth') */
             this.scrollToBottom(500, 'auto')
             setTimeout(() => {
                 this.myScrollContainer?.nativeElement?.scrollTo({
@@ -116,6 +120,8 @@ export class BasicTable implements OnInit {
     selectedRowIndex: number = -1;
     scrolling = false
     onTableScroll(e: any) {
+        if (this.isFiltering)
+            return;
         this.scrolling = true
         this.liveMode = false
 
@@ -128,9 +134,9 @@ export class BasicTable implements OnInit {
         if (this.myScrollContainer.nativeElement.scrollTop <= 0 && this.pageNumber - 2 >= 0) {
             this.renderedData = [...this.mockDataListTemp.slice((this.pageNumber - 2) * this.pageSize, (this.pageNumber - 1) * this.pageSize)]
             this.pageNumber--
-            this.dataSource = [...this.renderedData]
+            this.dataSource = new MatTableDataSource([...this.renderedData])
+            this.dataSource.sort = this.sort;
             this.scrollToBottom(2500, 'auto')
-            console.log("top s roll")
         }
 
         //bottom scroll
@@ -141,7 +147,8 @@ export class BasicTable implements OnInit {
                 this.renderedData = [...this.mockDataListTemp.slice(this.mockDataListTemp.length - this.pageSize, this.mockDataListTemp.length)]
             }
             this.pageNumber++
-            this.dataSource = [...this.renderedData]
+            this.dataSource = new MatTableDataSource([...this.renderedData])
+            this.dataSource.sort = this.sort;
             if (!this.liveModeClicked) {
                 this.scrollToBottom(3000, 'auto')
             }
