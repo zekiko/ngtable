@@ -1,0 +1,199 @@
+/* ARCHIVE */
+.archive-container {
+    background-color: rgb(71, 84, 107);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.wrapper {
+    margin-top: 1%;
+    height: 60%;
+    width: 95%;
+    table-layout: fixed;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+
+.pagination-div {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2F4163;
+
+}
+
+.pagination {
+    width: 50%;
+    background-color: #2F4163;
+}
+
+.footer-button-div {
+    width: 50%;
+}
+
+.export-button {
+    background-color: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: white;
+    width: 150px;
+    border: 1px solid rgb(255, 255, 255)
+}
+
+::ng-deep .mat-paginator-range-label{
+    color: white
+}
+
+::ng-deep .mat-select-panel {
+    background-color: #7a808b;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+mat-form-field {
+    font-size: 14px;
+}
+
+.mat-table-sticky {
+    background-color: #2F4163;
+    color: rgb(255, 255, 255);
+    width: 26px;
+    height: 18px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11.9941px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    text-align: center !important;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: rgb(27, 236, 27);
+}
+
+::ng-deep .mat-row {
+    height: 46px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+}
+
+.mat-row:nth-child(2n) {
+    background-color: #7a808b;
+    color: #fff;
+}
+
+::ng-deep .mat-cell {
+    color: black !important;
+    font-size: 0.8rem;
+}
+
+.forms {
+    width: 95%;
+    height: 25%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.inner-forms {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.form-left {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+}
+
+.form-right {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+}
+
+.filter-form {
+    height: 25%;
+}
+
+.form-label-div {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-div {
+    width: 70%;
+}
+
+.label-div {
+    width: 30%;
+    color: #fff;
+}
+
+
+::ng-deep .mat-form-field-outline {
+    height: 45px !important;
+}
+
+::ng-deep .mat-form-field-outline-start {
+    color: rgb(255, 255, 255)
+}
+
+::ng-deep .mat-form-field-outline-end {
+    color: rgb(255, 255, 255)
+}
+
+::ng-deep .mat-form-field-outline-gap {
+    color: rgb(255, 255, 255)
+}
+
+::ng-deep .mat-form-field-label {
+    color: rgb(255, 255, 255);
+}
+
+::ng-deep .ng-star-inserted {
+    color: rgb(255, 255, 255);
+}
+
+.search-button-div {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}
+
+.search-button {
+    background-color: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: white;
+    width: 150px;
+    border: 1px solid rgb(255, 255, 255)
+}

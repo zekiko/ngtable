@@ -1,0 +1,182 @@
+<div class="archive-container">
+    <div class="forms">
+        <div class="inner-forms">
+            <div class="form-left">
+                <div class="form-label-div">
+                    <mat-label class="label-div">Frekans</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Frekans ara</mat-label>
+                            <input class="filter-input" matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">Bant</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Bant ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">Modülasyon</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Modülasyon ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">SNR</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>SNR ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <div class="form-label-div">
+                    <mat-label class="label-div">Kimlik Bilgisi</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Kimlik bilgisi ara</mat-label>
+                            <input class="filter-input" matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">Enlem</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Enlem ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">Boylam</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Boylam ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-label-div">
+                    <mat-label class="label-div">Yayın</mat-label>
+                    <div class="form-div">
+                        <mat-form-field class="filter-form" appearance="outline">
+                            <mat-label>Yayın ara</mat-label>
+                            <input matInput (keyup)="applyFilter($any($event.target).value)">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-button-div">
+            <button mat-stroked-button class="search-button" color="warn">Ara</button>
+        </div>
+    </div>
+    <div class="wrapper" (scroll)="onTableScroll($event)" #scrollframe>
+
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+            class="mat-elevation-z8">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="frequency">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                    Merkez Frekansı
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="band">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                    Bant Genişliği
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="modulation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                    Modülasyon
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="snr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    SNR
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="record">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    Kayıt Tipi
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    Lokasyon
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                   Anlık Kimlik Bilgisi
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="detail">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  Detay Görüntüleme
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="start">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  Yayın Başlangıcı
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stop">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  Yayın Bitiş
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+
+            <!--     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+    </div>
+    <div class="pagination-div">
+        <div class="footer-button-div">
+            <button mat-stroked-button class="export-button" color="warn">Export</button>
+        </div>
+        <mat-paginator class="pagination" [pageSizeOptions]="[25, 50, 75]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>
