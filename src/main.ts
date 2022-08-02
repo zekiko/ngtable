@@ -16,6 +16,7 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatButtonModule } from '@angular/material/button'
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { ArchiveComponent } from './app/archive/archive.component';
@@ -36,6 +37,7 @@ import { ArchiveComponent } from './app/archive/archive.component';
     MatBadgeModule,
     MatButtonModule,
     MatPaginatorModule,
+    HttpClientModule
   ],
   entryComponents: [ArchiveComponent],
   declarations: [ArchiveComponent],
