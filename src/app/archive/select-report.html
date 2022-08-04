@@ -1,21 +1,91 @@
-<mat-accordion class="root">
-    <mat-expansion-panel  class="expansion">
-        <!-- #enddocregion hide-toggle -->
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                This is the expansion title
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
-    
-    <!-- #enddocregion basic-panel -->
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="expansion">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Self aware panel
-            </mat-panel-title>    
-        </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
-    </mat-expansion-panel>
-</mat-accordion>
+<div class="root">
+    <mat-accordion *ngFor="let data of reportDataList">
+       <!--  <mat-expansion-panel class="expansion">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    This is the expansion title
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel> -->
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="expansion">
+            <mat-expansion-panel-header>
+                <mat-panel-title class="title">
+                    {{data.reportName}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="list-div">
+                <mat-list role="list" class="report-list">
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Rapor Adı</div>
+                        <div class="item-data">{{data.reportName}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Freakans Min:</div>
+                        <div class="item-data">{{data.frequencyHzStart}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Freakans Max:</div>
+                        <div class="item-data">{{data.frequencyHzEnd}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Bant Genişliği Min:</div>
+                        <div class="item-data">{{data.bandwidthHzStart}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Bant Genişliği Max:</div>
+                        <div class="item-data">{{data.bandwidthHzEnd}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Güvenilirlik Min:</div>
+                        <div class="item-data">{{data.confidenceStart}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Güvenilirlik Max:</div>
+                        <div class="item-data">{{data.confidenceEnd}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Başlangıç Tarihi Min:</div>
+                        <div class="item-data">{{data.startTimeMs}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Başlangıç Tarihi Max:</div>
+                        <div class="item-data">{{data.endTimeMs}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Tespit Süresi Min:</div>
+                        <div class="item-data">{{data.durationMsStart}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Tespit Süresi Max:</div>
+                        <div class="item-data">{{data.durationMsEnd}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">SNR Min:</div>
+                        <div class="item-data">{{data.snrDbStart}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">SNR Max:</div>
+                        <div class="item-data">{{data.snrDbEnd}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Kimlik Bilgisi:</div>
+                        <div class="item-data">{{data.identification}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Sinyal Tipi:</div>
+                        <div class="item-data">{{data.signalType}}</div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div class="item-header">Kaynak:</div>
+                        <div class="item-data">{{data.source}}</div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <div class="button-div">
+                <button class="report-button" mat-button (click)="handleSelectReport(data)">Raporu Seç</button>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

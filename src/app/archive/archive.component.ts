@@ -185,7 +185,7 @@ export class ArchiveComponent implements OnInit {
         this.mockDataLength = this.mockDataLength + 60
     }
 
-    
+
     /* animal: string;
     name: string;
     openDialog(): void {
@@ -199,7 +199,7 @@ export class ArchiveComponent implements OnInit {
             this.animal = result;
         });
     } */
-    
+
     isSelectDrawerOpen = false
     handleSelectDrawerClick() {
         this.isSelectDrawerOpen = true
@@ -221,7 +221,7 @@ export class ArchiveComponent implements OnInit {
         this.isDrawerOpen = eventData.open
     }
 
-    handleDrawerClose(){
+    handleDrawerClose() {
         this.isCreateReportOpen = false
         this.isSelectDrawerOpen = false
         this.isDrawerOpen = false
@@ -265,9 +265,45 @@ export class CreateReportComponent {
     styleUrls: ['select-report.scss'],
 
 })
-export class SelectReportComponent {
+export class SelectReportComponent implements OnInit {
     constructor() { }
     panelOpenState = false;
+    reportDataList : any = []
+
+    ngOnInit(){
+        this.createMockReportList()
+        console.log(this.reportDataList)
+    }
+
+    handleSelectReport(e: any){
+console.log(e)
+    }
+
+    createMockReportList() {
+        for (let i = 0; i < 100; i++) {
+            const reportData = {
+                reportName: i + 'name',
+                frequencyHzStart: i + 'frequencyHzStart',
+                frequencyHzEnd: i + 'frequencyHzEnd',
+                bandwidthHzStart: i + 'bandwidthHzStart',
+                bandwidthHzEnd: i + 'bandwidthHzEnd',
+                confidenceStart: i + 'confidenceStart',
+                confidenceEnd: i + 'confidenceEnd',
+                startTimeMs: i + 'startTimeMs',
+                endTimeMs: i + 'endTimeMs',
+                durationMsStart: i + 'durationMsStart',
+                durationMsEnd: i + 'durationMsEnd',
+                snrDbStart: i + 'snrDbStart',
+                snrDbEnd: i + 'snrDbEnd',
+                signalType: i + 'signalType',
+                source: i + 'source',
+                identification: i + 'identification',
+            }
+            this.reportDataList = [...this.reportDataList, reportData]
+        }
+
+    }
+
 }
 
 @Component({
