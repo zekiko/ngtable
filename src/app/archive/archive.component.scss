@@ -1,20 +1,55 @@
 /* ARCHIVE */
 .archive-container {
-    background-color: rgb(71, 84, 107);
-    height: 100vh;
     width: 100vw;
+    height: 100vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.drawer {
+    width: 300px;
+    height: 100%;
+    background-color: #2F4163;
+
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.forms-table-container {
+    background-color: rgb(71, 84, 107);
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-
+ 
 .wrapper {
     margin-top: 1%;
     height: 60%;
     width: 95%;
+    margin-left: 3%;
     table-layout: fixed;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 0.5em;
+        height: 0.5em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgb(211, 101, 101);
+        border-radius: 150px;
+
+        &:hover {
+            background: rgba(16, 209, 145, 0.815);
+        }
+    }
 }
 
 table {
@@ -25,6 +60,7 @@ table {
 
 .pagination-div {
     width: 95%;
+    margin-left: 3%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -51,7 +87,7 @@ table {
     border: 1px solid rgb(255, 255, 255)
 }
 
-::ng-deep .mat-paginator-range-label{
+::ng-deep .mat-paginator-range-label {
     color: white
 }
 
@@ -104,6 +140,7 @@ mat-form-field {
 .forms {
     width: 95%;
     height: 25%;
+    margin-left: 3%;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -216,4 +253,58 @@ input {
     width: 75px;
     border: 1px solid rgb(255, 255, 255);
     margin-left: 2px;
+}
+
+.static-drawer {
+    height: 100%;
+    width: 3%;
+    position: absolute;
+    left: 0;
+    color: rgb(255, 255, 255);
+    background-color: #2F4163;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-menu-drawer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: inherit;
+    height: 97%;
+    width: 100%;
+}
+
+.drawer-content {
+    background-color: transparent;
+    height: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.drawer-buttons {
+    background-color: transparent;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.report {
+    width: 100%;
+    height: 100%;
+}
+
+.select {
+    width: 100%;
+    height: 100%;
+}
+
+.mat-icon-button {
+    color: rgb(211, 101, 101);
 }

@@ -1,9 +1,13 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http'
+
+import { MatSidenav } from '@angular/material/sidenav';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 export interface Detection {
@@ -29,6 +33,11 @@ export interface PeriodicElement {
     position: number;
     weight: number;
     symbol: string;
+}
+
+export interface DialogData {
+    animal: string;
+    name: string;
 }
 
 /**
@@ -59,7 +68,13 @@ export class ArchiveComponent implements OnInit {
     //dataSource = new MatTableDataSource(ELEMENT_DATA);
     dataSource: any = [];
 
-    constructor(private _liveAnnouncer: LiveAnnouncer, private http: HttpClient) { }
+    showFiller = false;
+    isDrawerOpen = false
+
+
+    constructor(private _liveAnnouncer: LiveAnnouncer,
+        private http: HttpClient,
+        public dialog: MatDialog) { }
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('scrollframe') private myScrollContainer: ElementRef;
@@ -86,15 +101,15 @@ export class ArchiveComponent implements OnInit {
         }
     }
 
-    filterValues : any = {
-        frequencyHzStart: '',
-        frequencyHzEnd: '',
-        bandwidthHzStart: '',
-        bandwidthHzEnd: '',
+    filterValues: any = {
+        frequencyHzStart: 0,
+        frequencyHzEnd: 0,
+        bandwidthHzStart: 0,
+        bandwidthHzEnd: 0,
         confidenceStart: 0,
         confidenceEnd: 0,
-        startTimeMs: '',
-        endTimeMs: '',
+        startTimeMs: 0,
+        endTimeMs: 0,
         durationMsStart: 0,
         durationMsEnd: 0,
         snrDbStart: 0,
@@ -110,7 +125,7 @@ export class ArchiveComponent implements OnInit {
         console.log(this.filterValues)
     }
 
-    handleClearButton(){
+    handleClearButton() {
         this.filterValues = {
             frequencyHzStart: '',
             frequencyHzEnd: '',
@@ -131,16 +146,17 @@ export class ArchiveComponent implements OnInit {
         console.log(this.filterValues)
     }
 
-    handleSearchButton(){
+    handleSearchButton() {
+        console.log(this.filterValues)
         this.http
-        //.post(this.url + '/api/audio-session/', model.encode())
-        .get(`http://ews-build.esensi.local:8085/api/detection/gist/`, { responseType: 'text' }) //todo: parametrik olacak, yeri değişecek
-        .toPromise()
-        .then((response) => {
-          let resObj = JSON.parse(response)
-          
-        })
-        .catch((e) => console.log('Error', e));
+            //.post(this.url + '/api/audio-session/', model.encode())
+            .get(`http://ews-build.esensi.local:8085/api/detection/gist/cagri/`, { responseType: 'text' }) //todo: parametrik olacak, yeri değişecek
+            .toPromise()
+            .then((response) => {
+                let resObj = JSON.parse(response)
+
+            })
+            .catch((e) => console.log('Error', e));
     }
 
     mockDataList: any[] = [];
@@ -169,12 +185,104 @@ export class ArchiveComponent implements OnInit {
         this.mockDataLength = this.mockDataLength + 60
     }
 
-    scrollToBottom(buffer: number, behavior: string) {
-        //console.log(this.myScrollContainer.nativeElement.scrollTop + this.myScrollContainer.nativeElement.offsetHeight, this.myScrollContainer.nativeElement.scrollHeight)
-        this.myScrollContainer?.nativeElement?.scrollTo({
-            top: this.myScrollContainer?.nativeElement?.scrollHeight - buffer,
-            behavior: behavior
-        })
+    
+    /* animal: string;
+    name: string;
+    openDialog(): void {
+        const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+            width: '250px',
+            data: { name: this.name, animal: this.animal },
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            this.animal = result;
+        });
+    } */
+    
+    isSelectDrawerOpen = false
+    handleSelectDrawerClick() {
+        this.isSelectDrawerOpen = true
+        this.isCreateReportOpen = false
+        this.isDrawerOpen = true
     }
 
+    isCreateReportOpen = false
+    handleCreateReportButton() {
+        console.log("create")
+        this.isCreateReportOpen = true
+        this.isSelectDrawerOpen = false
+        this.isDrawerOpen = true
+    }
+
+    reportCanceled(eventData: { open: boolean }) {
+        console.log("reportCanceled...", eventData)
+        this.isCreateReportOpen = eventData.open
+        this.isDrawerOpen = eventData.open
+    }
+
+    handleDrawerClose(){
+        this.isCreateReportOpen = false
+        this.isSelectDrawerOpen = false
+        this.isDrawerOpen = false
+    }
+
+}
+
+@Component({
+    selector: 'create-report',
+    templateUrl: 'create-report.html',
+    styleUrls: ['create-report.scss'],
+
+})
+export class CreateReportComponent {
+    constructor() { }
+
+    @Input() data: any = {}
+    @Output() reportCancel = new EventEmitter<{ open: boolean }>();
+    drawerOpen: boolean;
+
+    handleCancelReport() {
+        console.log("cancel report")
+        this.data = {}
+        this.drawerOpen = false
+        this.reportCancel.emit({ open: this.drawerOpen });
+    }
+
+    reportName: string = ''
+    handleReportNameInput(e: any) {
+        console.log(this.reportName, e)
+    }
+
+    handleSaveReport() { //request to backend
+        console.log(this.data, this.reportName)
+    }
+}
+
+@Component({
+    selector: 'select-report',
+    templateUrl: 'select-report.html',
+    styleUrls: ['select-report.scss'],
+
+})
+export class SelectReportComponent {
+    constructor() { }
+    panelOpenState = false;
+}
+
+@Component({
+    selector: 'dialog-overview-example-dialog',
+    templateUrl: 'dialog.html',
+    styleUrls: ['dialog.scss'],
+
+})
+export class DialogOverviewExampleDialog {
+    constructor(
+        public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    ) { }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
 }

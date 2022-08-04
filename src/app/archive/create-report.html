@@ -1,0 +1,81 @@
+<div class="root">
+    <div class="form-div">
+        <mat-form-field class="form" appearance="fill">
+            <mat-label class="form-label">Rapor ismini girin</mat-label>
+            <input class="report-name-input" matInput [(ngModel)]="reportName"
+                (keyup)="handleReportNameInput($any($event.target).value)">
+        </mat-form-field>
+    </div>
+    <div class="list-div">
+        <mat-list role="list" class="report-list">
+            <mat-list-item role="listitem">
+                <div class="item-header">Rapor Adı</div>
+                <div class="item-data">{{reportName}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Freakans Min:</div>
+                <div class="item-data">{{data.frequencyHzStart}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Freakans Max:</div>
+                <div class="item-data">{{data.frequencyHzEnd}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Bant Genişliği Min:</div>
+                <div class="item-data">{{data.bandwidthHzStart}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Bant Genişliği Max:</div>
+                <div class="item-data">{{data.bandwidthHzEnd}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Güvenilirlik Min:</div>
+                <div class="item-data">{{data.confidenceStart}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Güvenilirlik Max:</div>
+                <div class="item-data">{{data.confidenceEnd}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Başlangıç Tarihi Min:</div>
+                <div class="item-data">{{data.startTimeMs}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Başlangıç Tarihi Max:</div>
+                <div class="item-data">{{data.endTimeMs}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Tespit Süresi Min:</div>
+                <div class="item-data">{{data.durationMsStart}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Tespit Süresi Max:</div>
+                <div class="item-data">{{data.durationMsEnd}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">SNR Min:</div>
+                <div class="item-data">{{data.snrDbStart}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">SNR Max:</div>
+                <div class="item-data">{{data.snrDbEnd}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Kimlik Bilgisi:</div>
+                <div class="item-data">{{data.identification}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Sinyal Tipi:</div>
+                <div class="item-data">{{data.signalType}}</div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <div class="item-header">Kaynak:</div>
+                <div class="item-data">{{data.source}}</div>
+            </mat-list-item>
+        </mat-list>
+    </div>
+    <div class="button-div">
+        <button class="report-button" mat-button (click)="handleCancelReport()">İptal</button>
+        <button class="report-button" mat-button (click)="handleSaveReport()">Kaydet</button>
+    </div>
+</div>
